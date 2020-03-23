@@ -19,8 +19,19 @@ run = True
 
 targets = []
 for i in range(10):
-    w = math.trunc(random() * 10000 % winSize) - int(rad / 2)
-    h = math.trunc(random() * 10000 % winSize) - int(rad / 2)
+    w = math.trunc(random() * 10000 % winSize)
+    h = math.trunc(random() * 10000 % winSize)
+
+    if winSize < (w + int(rad / 2)):
+        w = w - int(rad / 2)
+    elif int(rad / 2) > w:
+        w = w + int(rad / 2)
+
+    if winSize < (y + int(rad / 2)):
+        y = y - int(rad / 2)
+    elif int(rad / 2) > w:
+        y = y + int(rad / 2)
+
     targets.append((w, h))
 
 while run:
