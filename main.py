@@ -42,32 +42,33 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] and not x < (0 + rad - vel):
+    if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not x < (0 + rad - vel):
         x -= vel
-    elif keys[pygame.K_LEFT] and x < (0 + rad - vel):
+    elif (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x < (0 + rad - vel):
         x = 750 - width
 
-    if keys[pygame.K_RIGHT] and not x > (winSize - width - vel):
+    if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not x > (winSize - width - vel):
         x += vel
-    elif keys[pygame.K_RIGHT] and x > (winSize - width - vel):
+    elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x > (winSize - width - vel):
         x = 0
     
-    if keys[pygame.K_UP] and not y < (0 + rad - vel):
+    if (keys[pygame.K_UP] or keys[pygame.K_w]) and not y < (0 + rad - vel):
         y -= vel
-    elif keys[pygame.K_UP] and y < (0 + rad - vel):
+    elif (keys[pygame.K_UP] or keys[pygame.K_w]) and y < (0 + rad - vel):
         y = winSize - width
 
-    if keys[pygame.K_DOWN] and not y > (winSize - width - vel):
+    if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and not y > (winSize - width - vel):
         y += vel
-    elif keys[pygame.K_DOWN] and y > (winSize - width - vel):
+    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (winSize - width - vel):
         y = 0
 
     win.fill((22, 22, 22))
     
     for target in targets:
+        pygame.draw.line(win, (255, 255, 0), target, (x + rad, y + rad), 2)
         pygame.draw.circle(win, (255, 255, 255), target, int(rad / 2))
 
-    pygame.draw.circle(win, (0, 255, 155), (x+rad, y+rad), rad)
+    pygame.draw.circle(win, (0, 255, 155), (x + rad, y + rad), rad)
 
     pygame.display.update()
 
