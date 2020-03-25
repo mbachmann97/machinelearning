@@ -1,8 +1,9 @@
 import pygame
-import math
-from random import random
+import targets
 
 pygame.init()
+icon = pygame.image.load('./icon.png')
+pygame.display.set_icon(icon)
 
 winSize = 750
 res = (winSize, winSize)
@@ -17,22 +18,8 @@ vel = 10
 
 run = True
 
-targets = []
-for i in range(10):
-    w = math.trunc(random() * 10000 % winSize)
-    h = math.trunc(random() * 10000 % winSize)
-
-    if winSize < (w + int(rad / 2)):
-        w = w - int(rad / 2)
-    elif int(rad / 2) > w:
-        w = w + int(rad / 2)
-
-    if winSize < (y + int(rad / 2)):
-        y = y - int(rad / 2)
-    elif int(rad / 2) > w:
-        y = y + int(rad / 2)
-
-    targets.append((w, h))
+targets.GetData(rad, x, y)
+targets.Generate(winSize, rad / 2, 10)
 
 while run:
     pygame.time.delay(50)
@@ -62,11 +49,13 @@ while run:
     elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (winSize - width - vel):
         y = 0
 
+    if keys[pygame.K_ESCAPE]:
+        run = False
+
     win.fill((22, 22, 22))
-    
-    for target in targets:
-        pygame.draw.line(win, (255, 255, 0), target, (x + rad, y + rad), 2)
-        pygame.draw.circle(win, (255, 255, 255), target, int(rad / 2))
+
+    targets.GetData(rad, x, y)
+    targets.Draw(win)
 
     pygame.draw.circle(win, (0, 255, 155), (x + rad, y + rad), rad)
 
