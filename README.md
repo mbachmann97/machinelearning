@@ -1,5 +1,5 @@
 # Machinelearning
-Machinelearning Projekt Deutsch
+Machinelearning Projekt
 
 ## Start
 *python main.py*
