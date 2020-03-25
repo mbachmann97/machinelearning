@@ -29,6 +29,8 @@ while run:
 
     keys = pygame.key.get_pressed()
 
+    showViewField = False
+
     if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not x < (0 + rad - vel):
         x -= vel
     elif (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x < (0 + rad - vel):
@@ -49,10 +51,18 @@ while run:
     elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (winSize - width - vel):
         y = 0
 
+    if keys[pygame.K_SPACE]:
+        showViewField = True
+    else:
+        showViewField = False
+
     if keys[pygame.K_ESCAPE]:
         run = False
 
     win.fill((22, 22, 22))
+
+    if showViewField:
+        pygame.draw.circle(win, (55, 55, 55), (x + rad, y + rad), 250 - int(rad / 2), 2)
 
     targets.GetData(rad, x, y)
     targets.Draw(win)
