@@ -14,23 +14,40 @@ def GetData(_playerRadius, _playerX, _playerY):
     playerY = _playerY
 
 def Generate(winSize, radius, count):
-    for i in range(10):
-        w = helper.Rand(winSize)
-        h = helper.Rand(winSize)
+    for i in range(20):
 
-        if winSize < (w + int(radius)):
-            w = w - int(radius)
-        elif int(radius) > w:
-            w = w + int(radius)
+        valid = False
 
-        if winSize < (h + int(radius)):
-            h = h - int(radius)
-        elif int(radius) > w:
-            h = h + int(radius)
+        while valid == False:
 
-        distance = helper.Distance((w, h), (playerX, playerY), int(radius * 2))
+            w = helper.Rand(winSize)
+            h = helper.Rand(winSize)
 
-        targets.append([(w, h), distance])
+            if winSize < (w + int(radius)):
+                w = w - int(radius)
+            elif int(radius) > w:
+                w = w + int(radius)
+
+            if winSize < (h + int(radius)):
+                h = h - int(radius)
+            elif int(radius) > h:
+                h = h + int(radius)
+
+            if len(targets) > 0:
+                isInvalidToAtleastOne = False
+                for target in targets:
+                    distance = helper.Distance((w, h), target[0], 0)
+                    if distance < ((radius + 2.5) * 2):
+                        isInvalidToAtleastOne = True
+                if isInvalidToAtleastOne:
+                    valid = False
+                else:
+                    valid = True
+            else:
+                valid = True
+
+        distanceToPlayer = helper.Distance((w, h), (playerX, playerY), int(radius * 2))
+        targets.append([(w, h), distanceToPlayer])
 
 def Draw(targetWindow):
     DrawRangeLines(targetWindow)
@@ -43,7 +60,7 @@ def DrawRangeLines(targetWindow):
         target[1] = helper.Distance(target[0], (playerX, playerY), int(radius * 2))
 
         if target[1] < 250:
-            pygame.draw.line(targetWindow, (255, 255, 0), target[0], (playerX + int(radius * 2), playerY + int(radius * 2)), 2)
+            pygame.draw.aaline(targetWindow, (255, 255, 0), target[0], (playerX + int(radius * 2), playerY + int(radius * 2)), 2)
 
 def DrawTargets(targetWindow):
     for target in targets:
