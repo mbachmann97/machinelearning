@@ -14,8 +14,8 @@ pygame.display.set_caption("Machinelearning Projekt")
 
 width = 40
 rad = int(width / 2)
-x = int(winSize / 2) - rad
-y = int(winSize / 2) - rad
+x = int(gameSize / 2) - rad
+y = int(gameSize / 2) - rad
 vel = 10
 
 run = True
