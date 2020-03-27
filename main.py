@@ -1,12 +1,14 @@
 import pygame
 import targets
+import helper
 
 pygame.init()
 icon = pygame.image.load('./icon.png')
 pygame.display.set_icon(icon)
 
-winSize = 750
-res = (winSize, winSize)
+winSize = 950
+gameSize = 750
+res = (winSize, gameSize)
 win  = pygame.display.set_mode(res)
 pygame.display.set_caption("Machinelearning Projekt")
 
@@ -19,7 +21,7 @@ vel = 10
 run = True
 
 targets.GetData(rad, x, y)
-targets.Generate(winSize, rad / 2, 10)
+targets.Generate(gameSize, rad / 2, 10)
 
 while run:
     pygame.time.delay(50)
@@ -34,21 +36,21 @@ while run:
     if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not x < (0 + rad - vel):
         x -= vel
     elif (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x < (0 + rad - vel):
-        x = 750 - width
+        x = gameSize - width
 
-    if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not x > (winSize - width - vel):
+    if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not x > (gameSize - width - vel):
         x += vel
-    elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x > (winSize - width - vel):
+    elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x > (gameSize - width - vel):
         x = 0
     
     if (keys[pygame.K_UP] or keys[pygame.K_w]) and not y < (0 + rad - vel):
         y -= vel
     elif (keys[pygame.K_UP] or keys[pygame.K_w]) and y < (0 + rad - vel):
-        y = winSize - width
+        y = gameSize - width
 
-    if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and not y > (winSize - width - vel):
+    if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and not y > (gameSize - width - vel):
         y += vel
-    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (winSize - width - vel):
+    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (gameSize - width - vel):
         y = 0
 
     if keys[pygame.K_SPACE]:
@@ -68,6 +70,11 @@ while run:
     targets.Draw(win)
 
     pygame.draw.circle(win, (0, 255, 155), (x + rad, y + rad), rad)
+
+    pygame.draw.rect(win, (40, 45, 91), (gameSize, 0, winSize, gameSize))
+
+    helper.RenderText(win, 'Consolas', 20, "x: " + str(x) + ", y: " + str(y), (255, 255, 255), (gameSize, 0), (10, 10))
+    targets.DrawScore(win)
 
     pygame.display.update()
 
