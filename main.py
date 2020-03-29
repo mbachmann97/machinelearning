@@ -15,7 +15,6 @@ pygame.display.set_caption("Machinelearning Projekt")
 
 gameoverTime = 30
 TESTTIMER = pygame.USEREVENT + 1
-pygame.time.set_timer(TESTTIMER, gameoverTime * 1000)
 
 width = 40
 rad = int(width / 2)
@@ -35,39 +34,44 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == TESTTIMER:
-            run = False
+            print("test")
+            gameplay.ResetGame()
         if event.type == pygame.MOUSEMOTION:
             mousePos = event.pos
+        if event.type == pygame.MOUSEBUTTONUP:
+            gameplay.OnStartButtonClick(mousePos, TESTTIMER, gameoverTime)
     
     mods = pygame.key.get_mods()
     keys = pygame.key.get_pressed()
 
     showViewField = False
 
-    if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not x < (0 + rad - vel):
-        x -= vel
-    elif (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x < (0 + rad - vel):
-        x = gameSize - width
+    if(gameplay.timerActive):
 
-    if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not x > (gameSize - width - vel):
-        x += vel
-    elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x > (gameSize - width - vel):
-        x = 0
-    
-    if (keys[pygame.K_UP] or keys[pygame.K_w]) and not y < (0 + rad - vel):
-        y -= vel
-    elif (keys[pygame.K_UP] or keys[pygame.K_w]) and y < (0 + rad - vel):
-        y = gameSize - width
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not x < (0 + rad - vel):
+            x -= vel
+        elif (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x < (0 + rad - vel):
+            x = gameSize - width
 
-    if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and not y > (gameSize - width - vel):
-        y += vel
-    elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (gameSize - width - vel):
-        y = 0
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not x > (gameSize - width - vel):
+            x += vel
+        elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x > (gameSize - width - vel):
+            x = 0
+        
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and not y < (0 + rad - vel):
+            y -= vel
+        elif (keys[pygame.K_UP] or keys[pygame.K_w]) and y < (0 + rad - vel):
+            y = gameSize - width
 
-    if keys[pygame.K_SPACE]:
-        showViewField = True
-    else:
-        showViewField = False
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and not y > (gameSize - width - vel):
+            y += vel
+        elif (keys[pygame.K_DOWN] or keys[pygame.K_s]) and y > (gameSize - width - vel):
+            y = 0
+
+        if keys[pygame.K_SPACE]:
+            showViewField = True
+        else:
+            showViewField = False
 
     if keys[pygame.K_ESCAPE]:
         run = False
@@ -80,6 +84,9 @@ while run:
     targets.GetData(rad, x, y)
     targets.Draw(win)
 
+    if gameplay.timerActive is False:
+        x = int(gameSize / 2) - rad
+        y = int(gameSize / 2) - rad
     pygame.draw.circle(win, (0, 255, 155), (x + rad, y + rad), rad)
 
     pygame.draw.rect(win, (40, 45, 91), (gameSize, 0, 200, gameSize))

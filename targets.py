@@ -6,6 +6,8 @@ radius = 0
 playerX = 0
 playerY = 0
 score = 0
+countG = 0
+winSizeG = 0
 
 def GetData(_playerRadius, _playerX, _playerY):
     global radius, playerX, playerY
@@ -14,6 +16,9 @@ def GetData(_playerRadius, _playerX, _playerY):
     playerY = _playerY
 
 def Generate(winSize, radius, count):
+    global winSizeG, countG
+    winSizeG = winSize
+    countG = count
     for i in range(20):
 
         valid = False
@@ -73,3 +78,9 @@ def DrawRangeLines(targetWindow):
 def DrawTargets(targetWindow):
     for target in targets:
         pygame.draw.circle(targetWindow, (255, 255, 255), target[0], radius)
+
+def ResetTargets():
+    global score, targets
+    score = 0
+    targets = []
+    Generate(winSizeG, radius, countG)
