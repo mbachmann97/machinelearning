@@ -54,7 +54,8 @@ def Draw(targetWindow):
     DrawTargets(targetWindow)
 
 def DrawScore(targetWindow):
-    helper.RenderText(targetWindow, 'Consolas', 20, "Score: " + str(score), (255, 255, 255), (750, 30), (10, 0))
+    helper.RenderText(targetWindow, './fonts/RobotoMono-Bold.ttf', 36, str(score), (255, 255, 255), (850, 25), (0, 0), True)
+    helper.RenderText(targetWindow, './fonts/RobotoMono-Italic.ttf', 16, "Punkte", (255, 255, 255), (850, 65), (0, 0), True)
 
 #~~ INTERNAL ~~#
 

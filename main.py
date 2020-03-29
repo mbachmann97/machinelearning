@@ -1,6 +1,7 @@
 import pygame
 import targets
 import helper
+import gameplay
 
 pygame.init()
 icon = pygame.image.load('./icon.png')
@@ -12,11 +13,16 @@ res = (winSize, gameSize)
 win  = pygame.display.set_mode(res)
 pygame.display.set_caption("Machinelearning Projekt")
 
+gameoverTime = 30
+TESTTIMER = pygame.USEREVENT + 1
+pygame.time.set_timer(TESTTIMER, gameoverTime * 1000)
+
 width = 40
 rad = int(width / 2)
 x = int(gameSize / 2) - rad
 y = int(gameSize / 2) - rad
 vel = 10
+mousePos = (0, 0)
 
 run = True
 
@@ -28,7 +34,12 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+        if event.type == TESTTIMER:
+            run = False
+        if event.type == pygame.MOUSEMOTION:
+            mousePos = event.pos
+    
+    mods = pygame.key.get_mods()
     keys = pygame.key.get_pressed()
 
     showViewField = False
@@ -71,10 +82,12 @@ while run:
 
     pygame.draw.circle(win, (0, 255, 155), (x + rad, y + rad), rad)
 
-    pygame.draw.rect(win, (40, 45, 91), (gameSize, 0, winSize, gameSize))
+    pygame.draw.rect(win, (40, 45, 91), (gameSize, 0, 200, gameSize))
 
-    helper.RenderText(win, 'Consolas', 20, "x: " + str(x) + ", y: " + str(y), (255, 255, 255), (gameSize, 0), (10, 10))
     targets.DrawScore(win)
+
+    gameplay.DrawTimer(win, gameoverTime)
+    gameplay.DrawStartButton(win, gameSize, winSize, mousePos)
 
     pygame.display.update()
 
